@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package num.system.calc.converter;
+package numsystemconverter;
 
 import java.util.Scanner;
 
@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author andreas lees
  */
-public class NumSystemCalcConverter {
+public class NumSystemConverter {
         static Scanner scnr = new Scanner(System.in);
 
     /**
