@@ -94,6 +94,9 @@ public class NumSystemConverter {
                 String resultString = separateNumbers(result);
                 //convert from decimal back to original base
                 resultString= convertAny(10, resultString, firstBase);
+                if (resultString.isBlank())
+                        resultString = "0";
+                                
                 System.out.println("Answer in base "+ firstBase + ": " + resultString);
                 System.out.println("----------------------------");   
                 menu();
@@ -193,7 +196,6 @@ public class NumSystemConverter {
                         result = "";
                         for (int i = parts.length - 1; i >= 0; i--) {
                             if (foundOne == true) {
-                            System.out.println("found one");
                                 switch (parts[i]) {
                                     case "0":
                                         parts[i] = "1";
