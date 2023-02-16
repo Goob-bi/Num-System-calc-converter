@@ -155,6 +155,68 @@ public class NumSystemConverter {
                 menu();
         
     }
+    public static String convertBinary(String numbers) {
+        //takes a binary input and asks if it is in sign magnitude or twos complement
+        //SM if positive leave alone
+        //SM if negative with (-) leave alone
+        //SM if negative with (1) as MSB then change it to (-) (converter can handle - but not 1)
+        //TC if positive leave alone (same as SM)
+        //TC if negative convert to SM
+        //TC if negative with (1) as MSB then change it to (-) convert to SM
+        
+            System.out.println("Looks like your input is binary, is it in \n[S]ign magnitude or [T]wo's Complement?"); 
+            System.out.println("----------------------------"); 
+            String choice = scnr.nextLine();
+            switch (choice) {
+                case "S":
+                    //converts leading (1) to (-)
+                    if (String.valueOf(numbers.charAt(0)).equals("1")) {
+                        numbers = "-" + numbers.substring(1);
+                    }
+                break;
+                    
+                case "T":
+                    System.out.println(String.valueOf(numbers.charAt(0)) + String.valueOf(numbers.charAt(0)).equals("1"));
+                    if (String.valueOf(numbers.charAt(0)).equals("1") || String.valueOf(numbers.charAt(0)).equals("-")) {
+                        //replaces (1) in MSB to (-)
+                        numbers = "-" + numbers.substring(1);
+                        //converts to sign magnitude
+                        boolean foundOne1 = false;
+                        String[] parts = numbers.split(" ");
+                        numbers = "";
+                        for (int i = parts.length - 1; i >= 0; i--) {
+                            if (foundOne1 == true) {
+                                switch (parts[i]) {
+                                    case "0":
+                                        parts[i] = "1";
+                                    break;
+                                    case "1":
+                                        parts[i] = "0";
+                                    break;
+                                    case "-":
+                                    break;
+                                    default:
+                                        System.out.println("you shouldnt be here");
+                                        menu();
+                                    break;
+                                }
+                            } 
+                            numbers = parts[i] + " " + numbers;
+                            if (foundOne1 == false && parts[i].contains("1")) {
+                                foundOne1 = true;
+                            }
+                        }
+                        break;
+                    }
+                    break;
+                    
+                default:
+                    System.out.println("Not a valid option, defaulting to sign magnitude"); 
+                    System.out.println("----------------------------");
+                break;
+            }
+            return numbers;
+    }
     public static String convertAny(int firstBase, String numbers, int secondBase) {
         //take any base as string seperated by space
         //search through the spaces and convert to decimal
@@ -163,6 +225,13 @@ public class NumSystemConverter {
         String sign = "";
         String signBinary = "0 ";
         String result = "";
+        //logic for a binary input
+        
+        if (firstBase == 2) {
+            numbers = convertBinary(numbers);
+        }
+        //converts string numbers into a decimal number (base 10)
+        //note: assumes sign magnitude form for binary
         int dividend = convertDec(firstBase, numbers);
         //logic for negative numbers
         if (dividend < 0 ) {
@@ -173,7 +242,7 @@ public class NumSystemConverter {
         int divisor = secondBase;
         int quotient = dividend;
         int remainder = 0;
-        
+        //converts the new decimal number into the desired base
         while (quotient != 0){
             quotient = dividend / divisor;
             remainder = dividend % divisor;
