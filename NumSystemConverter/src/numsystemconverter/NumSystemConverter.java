@@ -18,6 +18,11 @@ public class NumSystemConverter {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        System.out.println("----------------------------------------------------------------------------------------\n"
+                + "This program can add/subtract numbers together in any base system (the two numbers\n"
+                + "must be in the same base) and convert numbers from any base system to another.\n"
+                + "If using binary, the program will take only sign magnitude form, or 2's complement form.\n"
+                + "----------------------------------------------------------------------------------------");
         menu();
         
     }
@@ -25,7 +30,8 @@ public class NumSystemConverter {
         String userIn;
         System.out.println("[C]onvert a number"
                 + "\n[A]dd or subtract numbers"
-                + "\n[Q]uit");
+                + "\n[Q]uit"
+                + "\n----------------------------");
         userIn = scnr.next();
         switch(userIn) {
             case "C":
@@ -52,6 +58,10 @@ public class NumSystemConverter {
                 int num2 = 0;
                 int result = 0;
                 int firstBase = 0;
+                String numbers = "";
+                String numbers2 = "";
+                        
+                
                 System.out.println("Type the base number");
                 scnr.nextLine();
                 String base = scnr.nextLine();
@@ -65,12 +75,19 @@ public class NumSystemConverter {
                 System.out.println("Type the first number, with the value of each position seperated by spaces, remember \neach spot cannot hold a number equal to or larger than the base system");
                 System.out.println("If it is a negative number first type a - followed by a space");
                 
-                String numbers = scnr.nextLine();
+                numbers = scnr.nextLine();
+                if (base.matches("2")) {
+                    numbers = convertBinary(numbers);
+                } 
+                
                 System.out.println("Type the operator (+ or -)");
                 String operator = scnr.nextLine();
                 System.out.println("Type the second number, with the value of each position seperated by spaces, remember \neach spot cannot hold a number equal to or larger than the base system");
                 
-                String numbers2 = scnr.nextLine();
+                numbers2 = scnr.nextLine();
+                if (base.matches("2")) {
+                    numbers2 = convertBinary(numbers2);
+                } 
                 //step through the string and seperate the two numbers and operator
                 //convert each number to base 10, if subtracting make the second number negative
                 //add the two numbers
@@ -156,7 +173,7 @@ public class NumSystemConverter {
         
     }
     public static String convertBinary(String numbers) {
-        //takes a binary input and asks if it is in sign magnitude or twos complement
+        //takes a binary input and asks if it is in sign magnitude or twos complement, converts to sign magnitude
         //SM if positive leave alone
         //SM if negative with (-) leave alone
         //SM if negative with (1) as MSB then change it to (-) (converter can handle - but not 1)
@@ -176,7 +193,6 @@ public class NumSystemConverter {
                 break;
                     
                 case "T":
-                    System.out.println(String.valueOf(numbers.charAt(0)) + String.valueOf(numbers.charAt(0)).equals("1"));
                     if (String.valueOf(numbers.charAt(0)).equals("1") || String.valueOf(numbers.charAt(0)).equals("-")) {
                         //replaces (1) in MSB to (-)
                         numbers = "-" + numbers.substring(1);
